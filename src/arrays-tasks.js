@@ -276,9 +276,11 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  // revise this to task later!!
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return Array(size).fill(0);
+  }
+  return Array(size).fill(createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -292,8 +294,8 @@ function createNDimensionalArray(/* n, size */) {
  *    flattenArray(['a', ['b', ['c', 'd'], 'e'], 'f']) => ['a', 'b', 'c', 'd', 'e', 'f']
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
-function flattenArray(/* nestedArray */) {
-  throw new Error('Not implemented');
+function flattenArray(nestedArray) {
+  return nestedArray.flat(Infinity);
 }
 
 /**
@@ -326,8 +328,17 @@ function selectMany(arr, childrenSelector) {
  *   calculateBalance([ [ 10, 8 ], [ 1, 5 ] ])  => (10 - 8) + (1 - 5) = 2 + -4 = -2
  *   calculateBalance([]) => 0
  */
-function calculateBalance(/* arr */) {
-  throw new Error('Not implemented');
+function calculateBalance(arr) {
+  const arrN = [];
+  if (arr.length <= 0) {
+    return 0;
+  }
+  for (let i = 0; i < arr.length; i += 1) {
+    const result = arr[i][0] - arr[i][1];
+    arrN.push(result);
+  }
+
+  return arrN[0] + arrN[1];
 }
 
 /**
@@ -342,8 +353,28 @@ function calculateBalance(/* arr */) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  const result = [];
+  let timeArr = [];
+  let count = 0;
+  const nothing = null;
+
+  arr.map((cur, index) => {
+    timeArr.push(cur);
+    count += 1;
+    if (count === chunkSize) {
+      result.push(timeArr);
+      timeArr = [];
+      count = 0;
+    }
+    if (index === arr.length - 1) {
+      if (timeArr.length > 0) {
+        result.push(timeArr);
+      }
+    }
+    return nothing;
+  });
+  return result;
 }
 
 /**
@@ -375,8 +406,8 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  return indices.reduce((acc, index) => acc[index], arr);
 }
 
 /**
@@ -437,8 +468,23 @@ function getIdentityMatrix(n) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  // const arr = [];
+  // for (let i = 0; i < numbers.length; i += 1) {
+  //   if (numbers[i] % 2) {
+  //     arr.push(i);
+  //   }
+  // }
+  // return arr;
+
+  const result = numbers.map((cur, index) => {
+    let target;
+    if (cur % 2) {
+      target = index;
+    }
+    return target;
+  });
+  return result.filter((del) => del !== undefined);
 }
 
 /**
@@ -451,8 +497,15 @@ function getIndicesOfOddNumbers(/* numbers */) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((cur) => {
+    const hex = cur.toString(16);
+    const zero = '000000';
+    const merge = (zero + hex).toUpperCase();
+    const result = merge.slice(hex.length);
+
+    return `#${result}`;
+  });
 }
 
 /**
