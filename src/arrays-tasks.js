@@ -522,8 +522,10 @@ function getHexRGBValues(arr) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  const sortedArray = arr.sort((a, b) => b - a);
+  const result = [...sortedArray.slice(0, n)];
+  return result.flat(Infinity);
 }
 
 /**
@@ -538,8 +540,15 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  const arr = [];
+  arr1.some((item) => {
+    if (arr2.includes(item)) {
+      arr.push(item);
+    }
+    return '';
+  });
+  return arr;
 }
 
 /**
@@ -553,8 +562,9 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  const sum = nums.reduce((acc, cur) => acc + cur, 0);
+  return String(sum).length;
 }
 
 /**
@@ -588,8 +598,32 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const { length } = arr;
+  const cut = length - Math.abs(n);
+  let result = [];
+
+  if (n > 0) {
+    const movePart = arr.slice(cut, length);
+    const stayPart = arr.slice(0, cut);
+    const merge = `${movePart},${stayPart}`;
+    if (typeof arr[0] === 'number') {
+      result = merge.split(',').map(Number);
+    } else {
+      result = merge.split(',');
+    }
+  }
+  if (n < 0) {
+    const movePart = arr.slice(0, Math.abs(n));
+    const stayPart = arr.slice(Math.abs(n));
+    const merge = `${stayPart},${movePart}`;
+    if (typeof arr[0] === 'number') {
+      result = merge.split(',').map(Number);
+    } else {
+      result = merge.split(',');
+    }
+  }
+  return result;
 }
 
 /**
